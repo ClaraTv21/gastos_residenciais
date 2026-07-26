@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { totaisService } from "../services/totaisService";
-import { TotaisGerais } from "../types";
+import type { TotaisGerais } from "../types";
 
 export function Totais({ reloadKey }: { reloadKey: number }) {
   const [totais, setTotais] = useState<TotaisGerais | null>(null);
 
   useEffect(() => {
     totaisService.obter().then(setTotais);
-  }, [reloadKey]); // recarrega sempre que uma pessoa/transação nova é criada
+  }, [reloadKey]);
 
   if (!totais) return <p>Carregando...</p>;
 

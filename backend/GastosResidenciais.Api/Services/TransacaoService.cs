@@ -25,12 +25,10 @@ public class TransacaoService
 
     public async Task<Transacao> CriarAsync(CriarTransacaoDto dto)
     {
-        // Regra: "esse valor [pessoa] precisa existir no cadastro de pessoa"
         var pessoa = await _context.Pessoas.FindAsync(dto.PessoaId)
             ?? throw new RegraNegocioException("Pessoa informada não existe.");
 
-        // Regra: "caso a pessoa informada seja menor de idade (menor de 18 anos),
-        // apenas despesas poderão ser cadastradas"
+
         if (pessoa.Idade < 18 && dto.Tipo == TipoTransacao.Receita)
         {
             throw new RegraNegocioException(

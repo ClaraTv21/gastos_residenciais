@@ -41,7 +41,7 @@ public class PessoasController : ControllerBase
         return Ok(pessoas);
     }
 
-    // DELETE /api/pessoas/5 — deleção (com cascade automático via EF Core)
+    // DELETE /api/pessoas/5 — deleção
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deletar(int id)
     {
@@ -49,7 +49,7 @@ public class PessoasController : ControllerBase
         if (pessoa is null) return NotFound();
 
         _context.Pessoas.Remove(pessoa);
-        await _context.SaveChangesAsync(); // dispara o cascade delete configurado no DbContext
+        await _context.SaveChangesAsync();
         return NoContent();
     }
 }

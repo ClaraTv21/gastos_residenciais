@@ -1,5 +1,5 @@
 import api from "./api";
-import { Pessoa } from "../types";
+import type { Pessoa } from "../types";
 
 export const pessoaService = {
   listar: () => api.get<Pessoa[]>("/pessoas").then(r => r.data),

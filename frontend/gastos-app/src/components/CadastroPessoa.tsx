@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import { pessoaService } from "../services/pessoaService";
-import { Pessoa } from "../types";
+import type { Pessoa } from "../types";
 
-/**
- * Componente responsável pelo cadastro de pessoas:
- * criação, listagem e deleção (requisito do enunciado).
- */
 export function CadastroPessoa() {
   const [pessoas, setPessoas] = useState<Pessoa[]>([]);
   const [nome, setNome] = useState("");
@@ -32,14 +28,13 @@ export function CadastroPessoa() {
       await pessoaService.criar(nome, idade);
       setNome("");
       setIdade(0);
-      await carregarPessoas(); // recarrega a lista para refletir a nova pessoa
+      await carregarPessoas();
     } catch {
       setErro("Erro ao cadastrar pessoa.");
     }
   };
 
   const handleDeletar = async (id: number) => {
-    // Ao deletar, o backend já cuida do cascade delete das transações
     await pessoaService.deletar(id);
     await carregarPessoas();
   };

@@ -1,8 +1,7 @@
 namespace GastosResidenciais.Api.Models;
 
 /// <summary>
-/// Representa uma pessoa cadastrada no sistema.
-/// Atende ao requisito: "Identificador único, Nome, Idade".
+
 /// </summary>
 public class Pessoa
 {

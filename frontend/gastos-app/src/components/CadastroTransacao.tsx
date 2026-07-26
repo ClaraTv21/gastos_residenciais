@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { pessoaService } from "../services/pessoaService";
 import { transacaoService } from "../services/transacaoService";
-import { Pessoa, TipoTransacao } from "../types";
+import type { Pessoa, TipoTransacao } from "../types";
 
 export function CadastroTransacao({ onCriada }: { onCriada?: () => void }) {
   const [pessoas, setPessoas] = useState<Pessoa[]>([]);
@@ -15,8 +15,6 @@ export function CadastroTransacao({ onCriada }: { onCriada?: () => void }) {
     pessoaService.listar().then(setPessoas);
   }, []);
 
-  // Encontra a pessoa selecionada para checar a idade no front também
-  // (validação client-side é só UX; a regra "de verdade" está garantida no backend)
   const pessoaSelecionada = pessoas.find(p => p.id === pessoaId);
   const ehMenorDeIdade = pessoaSelecionada && pessoaSelecionada.idade < 18;
 
@@ -35,8 +33,6 @@ export function CadastroTransacao({ onCriada }: { onCriada?: () => void }) {
       setValor(0);
       onCriada?.();
     } catch (err: any) {
-      // Mostra a mensagem de regra de negócio vinda do backend
-      // (ex: "Pessoas menores de 18 anos só podem cadastrar despesas.")
       setErro(err.response?.data?.erro ?? "Erro ao cadastrar transação.");
     }
   };
@@ -67,7 +63,7 @@ export function CadastroTransacao({ onCriada }: { onCriada?: () => void }) {
         <select
           value={tipo}
           onChange={e => setTipo(e.target.value as TipoTransacao)}
-          disabled={ehMenorDeIdade} // trava visualmente a opção "Receita" para menores
+          disabled={ehMenorDeIdade}
         >
           <option value="Despesa">Despesa</option>
           <option value="Receita" disabled={ehMenorDeIdade}>Receita</option>

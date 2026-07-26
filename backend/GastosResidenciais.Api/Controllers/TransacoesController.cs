@@ -23,7 +23,6 @@ public class TransacoesController : ControllerBase
         }
         catch (RegraNegocioException ex)
         {
-            // Erro de regra de negócio → 400 com mensagem clara para o front exibir
             return BadRequest(new { erro = ex.Message });
         }
     }

@@ -4,8 +4,6 @@ import { CadastroTransacao } from "./components/CadastroTransacao";
 import { Totais } from "./components/Totais";
 
 function App() {
-  // Um contador simples força o recarregamento dos totais sempre
-  // que algo novo é cadastrado, sem precisar de gerenciador de estado global
   const [reloadKey, setReloadKey] = useState(0);
 
   return (

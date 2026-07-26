@@ -17,7 +17,6 @@ public class TotaisController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<TotaisGeraisDto>> Obter()
     {
-        // Carrega pessoas com suas transações de uma vez (evita N+1 queries)
         var pessoas = await _context.Pessoas
             .Include(p => p.Transacoes)
             .ToListAsync();
@@ -34,7 +33,6 @@ public class TotaisController : ControllerBase
             return new TotalPessoaDto(p.Id, p.Nome, receitas, despesas, receitas - despesas);
         }).ToList();
 
-        // "ao final da listagem, deverá ser exibido o total geral de todas as pessoas"
         var totalReceitasGeral = totaisPorPessoa.Sum(t => t.TotalReceitas);
         var totalDespesasGeral = totaisPorPessoa.Sum(t => t.TotalDespesas);
 

@@ -1,5 +1,5 @@
 import api from "./api";
-import { Transacao, TipoTransacao } from "../types";
+import type { Transacao, TipoTransacao } from "../types";
 
 export const transacaoService = {
   listar: () => api.get<Transacao[]>("/transacoes").then(r => r.data),

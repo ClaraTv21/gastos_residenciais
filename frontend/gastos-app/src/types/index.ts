@@ -4,7 +4,6 @@ export interface Pessoa {
   idade: number;
 }
 
-// Union type espelha o enum do C# — só aceita esses dois valores
 export type TipoTransacao = "Receita" | "Despesa";
 
 export interface Transacao {

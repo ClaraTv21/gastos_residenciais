@@ -1,17 +1,24 @@
 using GastosResidenciais.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using GastosResidenciais.Api.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Conexão com SQLite — arquivo físico "gastos.db" garante persistência entre execuções
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Permite que o enum TipoTransacao seja enviado/recebido como texto
+        // ("Receita"/"Despesa") em vez de número (0/1), deixando o JSON mais legível.
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=gastos.db"));
 
-// CORS liberado para o front local (ajuste a porta do seu React se necessário)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
@@ -20,16 +27,15 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader());
 });
 
+builder.Services.AddScoped<TransacaoService>();
+
 var app = builder.Build();
 
-// Aplica migrations automaticamente ao iniciar (garante que o banco sempre exista e esteja atualizado)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
 }
-
-builder.Services.AddScoped<TransacaoService>();
 
 app.UseSwagger();
 app.UseSwaggerUI();
